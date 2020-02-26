@@ -1,0 +1,17 @@
+<!doctype html>
+<title>This is the test template</title>
+{% if name %}
+  <h1>Hello {{ name }}!</h1>
+{% else %}
+  <h1>No name provided</h1>
+{% endif %}
+
+<form action="/form-data" method="post">
+  <div>
+    <label for="name">Name: </label>
+    <input type="text" name="name" id="name" required>
+  </div>
+  <div class="form-example">
+    <input type="submit" value="Submit">
+  </div>
+</form>
