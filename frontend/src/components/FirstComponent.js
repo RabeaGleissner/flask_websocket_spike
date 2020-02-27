@@ -1,7 +1,11 @@
-import React from "react";
+import React from 'react';
+import WebSocket from './WebSocket';
 
 const FirstComponent = () => (
-  <div>First React component</div>
+  <div>
+    <div>First React component</div>
+    <WebSocket />
+  </div>
 );
 
 export default FirstComponent;
