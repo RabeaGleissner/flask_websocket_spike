@@ -23,3 +23,7 @@ This will bundle the JavaScript and place it in  the `static/` directory.
 `export FLASK_APP=spike.py`
 
 `flask run`
+
+If you want to use the web socket connection, you might have to run it with
+
+`python3 spike.py`
