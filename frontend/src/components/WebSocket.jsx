@@ -1,32 +1,47 @@
 import React, { Component } from 'react';
 import socketIOClient from 'socket.io-client';
 
+const namespace = '/test';
+let socket;
+
 class WebSocket extends Component {
   constructor() {
     super();
     this.state = {
       response: false,
-      endpoint: 'http://127.0.0.1:5000/test',
     };
   }
 
   componentDidMount() {
-    const { endpoint } = this.state;
-    const socket = socketIOClient(endpoint);
+    socket = socketIOClient(namespace);
     socket.on('connect', data => {
-      console.log('socket connected, with data:', data);
-      socket.emit('my_event', { data: 'Frontend connected' })
+      console.log('socket connected');
+      socket.emit('custom_connection_event', { data: 'Frontend connected' })
     })
-    socket.on('my_response', data => this.setState({ response: data }));
+    socket.on('my_response', data => {
+      data && this.setState({ response: data.data })
+    });
+  }
+
+  pingWebsocket() {
+    socket.emit('ping_event', { data: 'ping from frontend' });
+  }
+
+  disconnectSocket() {
+    socket.emit('disconnect_request', { data: 'Frontend disconnected. Bye!' });
   }
 
   render() {
     const { response } = this.state;
+    console.log('response', response);
     return (
       <div>
+        <h3>Response from WebSocket</h3>
         {response ?
-            <p>There was this response: {response}</p> :
+            <p>{response}</p> :
             <p>Waiting for a response...</p>}
+            <button onClick={this.pingWebsocket}>Ping websocket</button>
+            <button onClick={this.disconnectSocket}>Disconnect</button>
       </div>
     )
   }
